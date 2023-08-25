@@ -11,5 +11,7 @@ endif()
 
 project ("ObjectLocation")
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
 # Include sub-projects.
 add_subdirectory ("ObjectLocation")
