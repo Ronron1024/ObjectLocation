@@ -6,5 +6,6 @@
 #include <iostream>
 
 // TODO: Reference additional headers your program requires here.
+#include <librealsense2/rs.hpp>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
