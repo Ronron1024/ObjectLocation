@@ -2,7 +2,7 @@
 set(DLL_DIR "C:\\Program Files (x86)\\Intel RealSense SDK 2.0\\bin\\x64")
 set(ADDITIONAL_INCLUDE_DIRS "C:\\Program Files (x86)\\Intel RealSense SDK 2.0\\include")
 
-find_library(REALSENSE2_FOUND realsense2 hints ${LIBRARY_DIR} REQUIRED)
+find_library(REALSENSE2_FOUND realsense2 HINTS ${LIBRARY_DIR} REQUIRED)
 if(NOT REALSENSE2_FOUND)
 	set(REALSENSE2_FOUND "realsense2")
 	message(warn "Failed to find realsense2")
