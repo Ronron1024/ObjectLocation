@@ -8,6 +8,7 @@ using namespace std;
 int main()
 {
 	pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>());
+	pcl::visualization::CloudViewer viewer("Viewer");
 
 	if (pcl::io::loadPCDFile<pcl::PointXYZRGB>("depthshot.pcd", *cloud) == -1)
 	{
@@ -16,6 +17,8 @@ int main()
 	}
 
 	std::cout << *cloud << std::endl;
+	viewer.showCloud(cloud);
+	while (!viewer.wasStopped());
 
 	return 0;
 }
