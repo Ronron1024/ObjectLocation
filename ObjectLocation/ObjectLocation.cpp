@@ -6,7 +6,6 @@
 int main()
 {
 	pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>());
-	pcl::visualization::CloudViewer viewer("Viewer");
 
 	rs2::pointcloud rs_cloud;
 
@@ -17,34 +16,31 @@ int main()
 	for (int i = 0; i < 30; i++)
 		pipeline.wait_for_frames();
 
-	while (!viewer.wasStopped())
+	rs2::frameset frames = pipeline.wait_for_frames();
+	rs2::depth_frame depth = frames.get_depth_frame();
+
+	rs2::points points = rs_cloud.calculate(depth);
+
+	cloud->resize(points.size());
+	cloud->is_dense = false;
+
+	const rs2::vertex* vertex = points.get_vertices();
+
+	int i = 0;
+	for (auto& point : *cloud)
 	{
-		rs2::frameset frames = pipeline.wait_for_frames();
-		rs2::depth_frame depth = frames.get_depth_frame();
+		point.x = vertex[i].x;
+		point.y = vertex[i].y;
+		point.z = vertex[i].z;
 
-		rs2::points points = rs_cloud.calculate(depth);
+		point.r = 0;
+		point.g = 0;
+		point.b = 255;
 
-		cloud->resize(points.size());
-		cloud->is_dense = false;
-
-		const rs2::vertex* vertex = points.get_vertices();
-
-		int i = 0;
-		for (auto& point : *cloud)
-		{
-			point.x = vertex[i].x;
-			point.y = vertex[i].y;
-			point.z = vertex[i].z;
-
-			point.r = 0;
-			point.g = 0;
-			point.b = 255;
-
-			i++;
-		}
-
-		viewer.showCloud(cloud);
+		i++;
 	}
+
+	pcl::io::savePCDFileASCII("depthshot.pcd", *cloud);
 
 	return 0;
 }
