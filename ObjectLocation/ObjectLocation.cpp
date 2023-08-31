@@ -7,24 +7,15 @@ using namespace std;
 
 int main()
 {
-	pcl::PointCloud<pcl::PointXYZ> cloud;
+	pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>());
 
-	cloud.width = 5;
-	cloud.height = 1;
-	cloud.is_dense = false;
-	cloud.resize(cloud.width * cloud.height);
-
-	for (auto& point : cloud)
+	if (pcl::io::loadPCDFile<pcl::PointXYZRGB>("depthshot.pcd", *cloud) == -1)
 	{
-		point.x = 1024 * rand() / (RAND_MAX + 1.0f);
-		point.y = 1024 * rand() / (RAND_MAX + 1.0f);
-		point.z = 1024 * rand() / (RAND_MAX + 1.0f);
+		PCL_ERROR("Could not open file.");
+		return 1;
 	}
 
-	for (const auto& point : cloud)
-	{
-		std::cerr << "\t" << point.x << "\t\t" << point.y << "\t\t" << point.z << std::endl;
-	}
+	std::cout << *cloud << std::endl;
 
 	return 0;
 }
