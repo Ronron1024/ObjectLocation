@@ -5,7 +5,7 @@ What are the purpose of each branches ?
 ## Main
 Live stream camera depth canal, rendered using PCL CloudViewer.
 
-You can read the CMakeLists.txt to understand how to link PCL and RealSens libraries.
+You can read the CMakeLists.txt to understand how to link PCL and RealSense libraries.
 
 ## Depthshot
 Save a depth screenshot in the file depthshot.pcd.
